@@ -37,61 +37,10 @@ public class MusicPlayerActivity extends Activity {
 		mItemLink = mIntent.getStringExtra("link");		
 
 		Log.d("itemLink", mItemLink + "");	
-		Log.d("player view", "player view is set");
-
 		mServiceIntent = new Intent(MusicPlayerActivity.this, MusicPlayerService.class);		
 		mServiceIntent.putExtra("itemLink", mItemLink);
 		startService(mServiceIntent);
-		
-		//new CSNPlayerViewLoader().execute(mItemLink);
-	}
 
-	public class CSNPlayerViewLoader extends AsyncTask<String, Void, CSNMusicItem> {
-		ProgressDialog prog;
-		Handler innerHandler;
-
-		@Override
-		protected void onPreExecute() { 
-
-			prog = new ProgressDialog(MusicPlayerActivity.this); 
-			prog.setMessage("Loading ..."); 
-			prog.show();
-		}
-
-		@Override
-		protected CSNMusicItem doInBackground(String... params) {
-			for (String urlVal : params) { 
-				Log.d("NAM", urlVal);	
-				CSNMusicItemParser mMusicItemParser = new CSNMusicItemParser();
-				mItem = mMusicItemParser.parse(urlVal);
-			}
-
-			return mItem;
-		}
-
-		@Override
-		protected void onPostExecute(CSNMusicItem item) {
-			prog.dismiss();	
-
-			Bundle itemBundle = new Bundle();
-			itemBundle.putString("songTitle", mItem.getTitle());
-			itemBundle.putString("songLinktoPlay", mItem.getLinkToPlay());
-			itemBundle.putString("songLength", mItem.getLength());
-			itemBundle.putString("songCover", mItem.getCoverURL());
-			itemBundle.putString("songID", mItem.getID());
-			
-			itemBundle.putStringArray("songPerformers", 
-								mItem.getPerformer().toArray(new String[mItem.getPerformer().size()]));
-
-			playerService = new Intent(MusicPlayerActivity.this, MusicPlayerService.class);
-			playerService.putExtra("musicItem", itemBundle);
-			startService(playerService);
-		}
-
-		@Override
-		protected void onProgressUpdate(Void... values) {						
-
-		}
 	}
 
 	@Override
@@ -99,7 +48,7 @@ public class MusicPlayerActivity extends Activity {
 		// TODO Auto-generated method stub
 		super.onDestroy();
 		if (!MusicPlayerService.mp.isPlaying()) {
-			stopService(playerService);
+			stopService(mServiceIntent);
 		}
 	}
 

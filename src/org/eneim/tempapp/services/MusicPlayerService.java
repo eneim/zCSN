@@ -62,10 +62,6 @@ OnClickListener, OnSeekBarChangeListener, OnBufferingUpdateListener {
 	public static String currentSong = null;
 
 	public static String linktoplay;
-
-	private Intent mItemIntent;
-	private Bundle mItemBundle;
-	private int lastSondId;
 	
 	public CSNMusicItem mItem;
 
@@ -209,73 +205,6 @@ OnClickListener, OnSeekBarChangeListener, OnBufferingUpdateListener {
 			e.printStackTrace();
 		}
 	}
-	
-	/* old method */
-//	@Override
-//	public int onStartCommand(Intent intent, int flags, int startId) {
-//		initUI();
-//		mItemBundle = intent.getBundleExtra("musicItem");		
-//		String songLink = mItemBundle.getString("songLinktoPlay");
-//		String songId = mItemBundle.getString("songID");
-//		Log.d("songId | currentSong", songId + " | " + currentSong);
-//		
-//		if (songLink != null) {			
-//			playSong(songLink);
-//			currentSong = songId;
-//			//currentSongIndex = songIndex;
-//		} else {
-//			if (mp.isPlaying())
-//				btnPlay.get().setImageResource(R.drawable.btn_pause);
-//			else
-//				btnPlay.get().setImageResource(R.drawable.btn_play);
-//		}
-//
-//		super.onStartCommand(intent, flags, startId);
-//		return START_STICKY;
-//	}
-//
-//	public void playSong(String link) {
-//		// Play song
-//		try {
-//			mp.reset();
-//			mp.setDataSource(link);
-//			mp.prepare();
-//			mp.start();
-//			// Displaying Song title
-//			String songTitle = mItemBundle.getString("songTitle");
-//			songTitleLabel.get().setText(songTitle);
-//
-//			DisplayImageOptions defaultOptions = new DisplayImageOptions.Builder()
-//			.imageScaleType(ImageScaleType.EXACTLY_STRETCHED)
-//			.build();
-//			ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(this)
-//			.defaultDisplayImageOptions(defaultOptions).build();
-//			ImageLoader coverLoader = ImageLoader.getInstance(); 
-//			coverLoader.init(config);
-//
-//			String imageUri = mItemBundle.getString("songCover");			
-//			coverLoader.loadImage(imageUri, new SimpleImageLoadingListener() {
-//				@Override
-//				public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-//					songCover.get().setImageBitmap(loadedImage);
-//				}
-//			});
-//
-//			// Changing Button Image to pause image
-//			btnPlay.get().setImageResource(R.drawable.btn_pause);
-//			// set Progress bar values
-//			songProgressBar.get().setProgress(0);
-//			songProgressBar.get().setMax(100);
-//			// Updating progress bar
-//			updateProgressBar();
-//		} catch (IllegalArgumentException e) {
-//			e.printStackTrace();
-//		} catch (IllegalStateException e) {
-//			e.printStackTrace();
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
-//	}
 
 	// ----------------onSeekBar Change Listener------------------------------//
 	/**

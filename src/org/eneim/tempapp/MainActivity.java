@@ -20,7 +20,6 @@ public class MainActivity extends Activity implements MainViewInterface {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		//fv = new FirstView(this);
 		fv = new MainView(this);
 		setContentView(fv);
 		
@@ -30,7 +29,7 @@ public class MainActivity extends Activity implements MainViewInterface {
 	@Override
 	public void onItemClickLoading(ListView view, int pos) {
 		CSNMusicPlaylistItem item = (CSNMusicPlaylistItem) view.getAdapter().getItem(pos);
-		
+				
 		Intent in = new Intent(this, MusicPlayerActivity.class);
 		String itemUrl = item.getItemUrl();				
 		Log.d("CSN", itemUrl + "");
