@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/musicItem"
+    android:layout_width="match_parent"
+    android:layout_height="56dp"
+    android:fadingEdge="vertical" >
+
+    <TextView
+        android:id="@+id/msk_item_title"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:ellipsize="marquee"
+        android:marqueeRepeatLimit="marquee_forever"
+        android:paddingBottom="4dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="6dp"
+        android:paddingTop="3dp"
+        android:scrollHorizontally="true"
+        android:singleLine="true"
+        android:text="Medium Text"
+        android:textSize="16sp" />
+
+    <View
+        android:id="@+id/view1"
+        android:layout_width="1dp"
+        android:layout_height="40dp"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@+id/msk_item_title"
+        android:background="#90909090"
+        android:fadingEdge="vertical"
+        android:focusable="false"
+        android:focusableInTouchMode="false" />
+
+    <RelativeLayout
+        android:id="@+id/downloaded_relative_layout"
+        android:layout_width="72dp"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@+id/view1"
+        android:focusable="false"
+        android:focusableInTouchMode="false" >
+
+        <ImageView
+            android:id="@+id/downloadIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:paddingLeft="5dp"
+            android:paddingRight="3dp"
+            android:src="@drawable/bh3" />
+
+        <TextView
+            android:id="@+id/msk_item_downloaded"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/downloadIcon"
+            android:ellipsize="marquee"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:gravity="right"
+            android:marqueeRepeatLimit="marquee_forever"
+            android:paddingRight="6dp"
+            android:scrollHorizontally="true"
+            android:singleLine="true"
+            android:text="Small Text"
+            android:textSize="12sp" />
+    </RelativeLayout>
+
+    <View
+        android:id="@+id/view2"
+        android:layout_width="1dp"
+        android:layout_height="42dp"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@+id/downloaded_relative_layout"
+        android:background="#90909090"
+        android:fadingEdge="vertical"
+        android:focusable="false"
+        android:focusableInTouchMode="false" />
+
+    <TextView
+        android:id="@+id/msk_item_performer"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/msk_item_title"
+        android:ellipsize="marquee"        
+        android:marqueeRepeatLimit="marquee_forever"
+        android:paddingBottom="3dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="6dp"
+        android:scrollHorizontally="true"
+        android:singleLine="true"
+        android:text="Small Text"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/msk_length"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@id/msk_item_title"
+        android:layout_toRightOf="@id/view2"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:gravity="right"
+        android:paddingLeft="8dp"
+        android:text="Small Text"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/msk_format"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@id/msk_item_performer"
+        android:layout_below="@+id/msk_length"
+        android:layout_toRightOf="@id/view2"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:gravity="right"
+        android:paddingLeft="8dp"
+        android:text="Small Text"
+        android:textSize="12sp" />
+
+</RelativeLayout>
