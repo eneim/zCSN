@@ -68,7 +68,7 @@ OnClickListener, OnSeekBarChangeListener, OnBufferingUpdateListener {
 	@Override
 	public void onCreate() {
 		// TODO Auto-generated method stub
-
+		
 		mp = new MediaPlayer();
 		mp.setOnCompletionListener(this);
 		mp.setOnBufferingUpdateListener(this);
@@ -79,7 +79,6 @@ OnClickListener, OnSeekBarChangeListener, OnBufferingUpdateListener {
 		songCurrentDurationLabel = new WeakReference<TextView>(
 				MusicPlayerView.songCurrentDurationLabel);
 		super.onCreate();
-
 	}
 
 	/**

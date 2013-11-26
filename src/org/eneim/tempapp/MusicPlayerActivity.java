@@ -40,7 +40,6 @@ public class MusicPlayerActivity extends Activity {
 		mServiceIntent = new Intent(MusicPlayerActivity.this, MusicPlayerService.class);		
 		mServiceIntent.putExtra("itemLink", mItemLink);
 		startService(mServiceIntent);
-
 	}
 
 	@Override
