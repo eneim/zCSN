@@ -66,10 +66,10 @@ public class MainView extends BaseLayout implements OnItemClickListener {
 		public View getView(int position, View convertView, ViewGroup parent) { 
 
 			View view = convertView; 
-			CSNMusicItemHolder csnMusicItemHolder = null; 
+			CSNMusicItemViewHolder csnMusicItemHolder = null; 
 			if (convertView == null) {
 				view = View.inflate(mContext, R.layout.item_music, null); 
-				csnMusicItemHolder = new CSNMusicItemHolder();
+				csnMusicItemHolder = new CSNMusicItemViewHolder();
 				csnMusicItemHolder.mskTitleView = (TextView) view.findViewById(R.id.msk_item_title);
 				csnMusicItemHolder.mskPerfomerView = (TextView) view.findViewById(R.id.msk_item_performer); 
 				csnMusicItemHolder.mskLengthView = (TextView) view.findViewById(R.id.msk_length);
@@ -78,7 +78,7 @@ public class MainView extends BaseLayout implements OnItemClickListener {
 				
 				view.setTag(csnMusicItemHolder); 
 			} else {
-				csnMusicItemHolder = (CSNMusicItemHolder) view.getTag();             	
+				csnMusicItemHolder = (CSNMusicItemViewHolder) view.getTag();             	
 			}
 
 			CSNMusicPlaylistItem mskItem = CSNMusicItemList.get(position); 
@@ -96,7 +96,7 @@ public class MainView extends BaseLayout implements OnItemClickListener {
 		}
 	} 
 
-	static class CSNMusicItemHolder {
+	static class CSNMusicItemViewHolder {
 		public TextView mskTitleView; 
 		public TextView mskPerfomerView;         
 		public TextView mskLengthView; 
