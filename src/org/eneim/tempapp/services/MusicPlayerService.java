@@ -59,6 +59,7 @@ OnClickListener, OnSeekBarChangeListener {
 	public static String linktoplay;
 
 	private Bundle mItemBundle;
+	private int lastSondId;
 
 	@Override
 	public void onCreate() {
