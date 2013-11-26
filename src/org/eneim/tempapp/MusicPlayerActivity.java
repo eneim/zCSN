@@ -18,7 +18,7 @@ public class MusicPlayerActivity extends Activity {
 	public MusicPlayerView playerView;
 
 	public Intent playerService;
-	public Intent mIntent;
+	public Intent mIntent, mServiceIntent;
 	public String mItemLink;
 	public CSNMusicItem mItem;
 
@@ -39,7 +39,11 @@ public class MusicPlayerActivity extends Activity {
 		Log.d("itemLink", mItemLink + "");	
 		Log.d("player view", "player view is set");
 
-		new CSNPlayerViewLoader().execute(mItemLink);
+		mServiceIntent = new Intent(MusicPlayerActivity.this, MusicPlayerService.class);		
+		mServiceIntent.putExtra("itemLink", mItemLink);
+		startService(mServiceIntent);
+		
+		//new CSNPlayerViewLoader().execute(mItemLink);
 	}
 
 	public class CSNPlayerViewLoader extends AsyncTask<String, Void, CSNMusicItem> {

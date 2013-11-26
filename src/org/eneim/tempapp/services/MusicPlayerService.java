@@ -4,18 +4,22 @@ import java.io.IOException;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Random;
 
+import org.eneim.tempapp.MusicPlayerActivity;
 import org.eneim.tempapp.R;
+import org.eneim.tempapp.items.CSNMusicItem;
+import org.eneim.tempapp.parser.CSNMusicItemParser;
 import org.eneim.tempapp.utilities.Utilities;
 import org.eneim.tempapp.view.MusicPlayerView;
 
+import android.app.ProgressDialog;
 import android.app.Service;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnCompletionListener;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
@@ -58,8 +62,11 @@ OnClickListener, OnSeekBarChangeListener {
 
 	public static String linktoplay;
 
+	private Intent mItemIntent;
 	private Bundle mItemBundle;
 	private int lastSondId;
+	
+	public CSNMusicItem mItem;
 
 	@Override
 	public void onCreate() {
@@ -108,41 +115,70 @@ OnClickListener, OnSeekBarChangeListener {
 		songProgressBar = new WeakReference<SeekBar>(
 				MusicPlayerView.songProgressBar);
 		songProgressBar.get().setOnSeekBarChangeListener(this);
+				
 	}
 
+	
+	/* new method */
+	
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
-		initUI();
-		mItemBundle = intent.getBundleExtra("musicItem");		
-		String songLink = mItemBundle.getString("songLinktoPlay");
-		String songId = mItemBundle.getString("songID");
-		Log.d("songId | currentSong", songId + " | " + currentSong);
+		initUI();		
+		String mItemLink = intent.getExtras().getString("itemLink");
 		
-		if (songLink != null) {			
-			playSong(songLink);
-			currentSong = songId;
-			//currentSongIndex = songIndex;
-		} else {
-			if (mp.isPlaying())
-				btnPlay.get().setImageResource(R.drawable.btn_pause);
-			else
-				btnPlay.get().setImageResource(R.drawable.btn_play);
-		}
+		//Toast.makeText(getApplicationContext(), mItemLink, Toast.LENGTH_SHORT).show();
+		
+		new AsyncTask<String, Void, CSNMusicItem>() {
+
+			ProgressDialog prog;
+			Handler innerHandler;
+
+			@Override
+			protected void onPreExecute() { 
+
+//				prog = new ProgressDialog(MusicPlayerService.this); 
+//				prog.setMessage("Loading ..."); 
+//				prog.show();
+			}
+
+			@Override
+			protected CSNMusicItem doInBackground(String... params) {
+				for (String urlVal : params) { 
+					Log.d("NAM", urlVal);	
+					CSNMusicItemParser mMusicItemParser = new CSNMusicItemParser();
+					mItem = mMusicItemParser.parse(urlVal);
+				}
+
+				return mItem;
+			}
+
+			@Override
+			protected void onPostExecute(CSNMusicItem item) {
+				//prog.dismiss();	
+
+				//Toast.makeText(getApplicationContext(), mItem.getLinkToPlay(), Toast.LENGTH_SHORT).show();
+				playSong(mItem);				
+			}
+
+			@Override
+			protected void onProgressUpdate(Void... values) {						
+
+			}
+		}.execute(mItemLink);
 
 		super.onStartCommand(intent, flags, startId);
 		return START_STICKY;
 	}
 
-	public synchronized void playSong(String link) {
+	public void playSong(CSNMusicItem item) {
 		// Play song
-		try {			
+		try {
 			mp.reset();
-			mp.setDataSource(link);
+			mp.setDataSource(item.getLinkToPlay());
 			mp.prepare();
 			mp.start();
 			// Displaying Song title
-			String songTitle = mItemBundle.getString("songTitle");
-			songTitleLabel.get().setText(songTitle);
+			songTitleLabel.get().setText(item.getTitle());
 
 			DisplayImageOptions defaultOptions = new DisplayImageOptions.Builder()
 			.imageScaleType(ImageScaleType.EXACTLY_STRETCHED)
@@ -152,7 +188,7 @@ OnClickListener, OnSeekBarChangeListener {
 			ImageLoader coverLoader = ImageLoader.getInstance(); 
 			coverLoader.init(config);
 
-			String imageUri = mItemBundle.getString("songCover");			
+			String imageUri = item.getCoverURL();	
 			coverLoader.loadImage(imageUri, new SimpleImageLoadingListener() {
 				@Override
 				public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
@@ -175,6 +211,73 @@ OnClickListener, OnSeekBarChangeListener {
 			e.printStackTrace();
 		}
 	}
+	
+	/* old method */
+//	@Override
+//	public int onStartCommand(Intent intent, int flags, int startId) {
+//		initUI();
+//		mItemBundle = intent.getBundleExtra("musicItem");		
+//		String songLink = mItemBundle.getString("songLinktoPlay");
+//		String songId = mItemBundle.getString("songID");
+//		Log.d("songId | currentSong", songId + " | " + currentSong);
+//		
+//		if (songLink != null) {			
+//			playSong(songLink);
+//			currentSong = songId;
+//			//currentSongIndex = songIndex;
+//		} else {
+//			if (mp.isPlaying())
+//				btnPlay.get().setImageResource(R.drawable.btn_pause);
+//			else
+//				btnPlay.get().setImageResource(R.drawable.btn_play);
+//		}
+//
+//		super.onStartCommand(intent, flags, startId);
+//		return START_STICKY;
+//	}
+//
+//	public void playSong(String link) {
+//		// Play song
+//		try {
+//			mp.reset();
+//			mp.setDataSource(link);
+//			mp.prepare();
+//			mp.start();
+//			// Displaying Song title
+//			String songTitle = mItemBundle.getString("songTitle");
+//			songTitleLabel.get().setText(songTitle);
+//
+//			DisplayImageOptions defaultOptions = new DisplayImageOptions.Builder()
+//			.imageScaleType(ImageScaleType.EXACTLY_STRETCHED)
+//			.build();
+//			ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(this)
+//			.defaultDisplayImageOptions(defaultOptions).build();
+//			ImageLoader coverLoader = ImageLoader.getInstance(); 
+//			coverLoader.init(config);
+//
+//			String imageUri = mItemBundle.getString("songCover");			
+//			coverLoader.loadImage(imageUri, new SimpleImageLoadingListener() {
+//				@Override
+//				public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+//					songCover.get().setImageBitmap(loadedImage);
+//				}
+//			});
+//
+//			// Changing Button Image to pause image
+//			btnPlay.get().setImageResource(R.drawable.btn_pause);
+//			// set Progress bar values
+//			songProgressBar.get().setProgress(0);
+//			songProgressBar.get().setMax(100);
+//			// Updating progress bar
+//			updateProgressBar();
+//		} catch (IllegalArgumentException e) {
+//			e.printStackTrace();
+//		} catch (IllegalStateException e) {
+//			e.printStackTrace();
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+//	}
 
 	// ----------------onSeekBar Change Listener------------------------------//
 	/**
