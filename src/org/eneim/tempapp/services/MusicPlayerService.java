@@ -18,6 +18,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.media.MediaPlayer.OnBufferingUpdateListener;
 import android.media.MediaPlayer.OnCompletionListener;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -40,7 +41,7 @@ import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.assist.SimpleImageLoadingListener;
 
 public class MusicPlayerService extends Service implements OnCompletionListener,
-OnClickListener, OnSeekBarChangeListener {
+OnClickListener, OnSeekBarChangeListener, OnBufferingUpdateListener {
 
 	private WeakReference<ImageButton> btnRepeat, btnShuffle;
 	private WeakReference<ImageView> btnPlay, btnForward, btnBackward, btnNext,
@@ -74,6 +75,7 @@ OnClickListener, OnSeekBarChangeListener {
 
 		mp = new MediaPlayer();
 		mp.setOnCompletionListener(this);
+		mp.setOnBufferingUpdateListener(this);
 		mp.reset();
 		mp.setAudioStreamType(AudioManager.STREAM_MUSIC);//
 		utils = new Utilities();
@@ -115,6 +117,7 @@ OnClickListener, OnSeekBarChangeListener {
 		songProgressBar = new WeakReference<SeekBar>(
 				MusicPlayerView.songProgressBar);
 		songProgressBar.get().setOnSeekBarChangeListener(this);
+		
 				
 	}
 
@@ -134,11 +137,8 @@ OnClickListener, OnSeekBarChangeListener {
 			Handler innerHandler;
 
 			@Override
-			protected void onPreExecute() { 
-
-//				prog = new ProgressDialog(MusicPlayerService.this); 
-//				prog.setMessage("Loading ..."); 
-//				prog.show();
+			protected void onPreExecute() {
+				
 			}
 
 			@Override
@@ -154,8 +154,6 @@ OnClickListener, OnSeekBarChangeListener {
 
 			@Override
 			protected void onPostExecute(CSNMusicItem item) {
-				//prog.dismiss();	
-
 				//Toast.makeText(getApplicationContext(), mItem.getLinkToPlay(), Toast.LENGTH_SHORT).show();
 				playSong(mItem);				
 			}
@@ -475,6 +473,13 @@ OnClickListener, OnSeekBarChangeListener {
 		updateProgressBar();
 	}
 
+
+	@Override
+	public void onBufferingUpdate(MediaPlayer mp, int percent) {
+		// TODO Auto-generated method stub
+		songProgressBar.get().setSecondaryProgress(percent);
+	}
+	
 	@Override
 	/**
 	 * On Song Playing completed if repeat is ON play same song again if shuffle

@@ -2,7 +2,7 @@ package org.eneim.tempapp;
 
 import org.eneim.tempapp.items.CSNMusicPlaylistItem;
 import org.eneim.tempapp.view.MainView;
-import org.eneim.tempapp.view.MainView.SecondViewInterface;
+import org.eneim.tempapp.view.MainView.MainViewInterface;
 import org.eneim.tempapp.MusicPlayerActivity;
 
 import android.app.Activity;
@@ -11,7 +11,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.ListView;
 
-public class MainActivity extends Activity implements SecondViewInterface {
+public class MainActivity extends Activity implements MainViewInterface {
 
 	//private FirstView fv;
 	private MainView fv;
@@ -34,7 +34,7 @@ public class MainActivity extends Activity implements SecondViewInterface {
 		Intent in = new Intent(this, MusicPlayerActivity.class);
 		String itemUrl = item.getItemUrl();				
 		Log.d("CSN", itemUrl + "");
-		in.putExtra("link", itemUrl);		
+		in.putExtra("link", itemUrl);
 		this.startActivity(in);
 	}
 

@@ -43,13 +43,13 @@ public class MainView extends BaseLayout implements OnItemClickListener {
 		list.setOnItemClickListener(this);
 	}
 	
-	public static interface SecondViewInterface {
+	public static interface MainViewInterface {
 		public void onItemClickLoading(ListView lv, int pos);
 	}
 
-	private SecondViewInterface mInterface;
+	private MainViewInterface mInterface;
 
-	public MainView setInterface(SecondViewInterface inf) {
+	public MainView setInterface(MainViewInterface inf) {
 		mInterface = inf;
 		return this;
 	}
