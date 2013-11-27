@@ -30,7 +30,7 @@ public class MainView extends BaseLayout implements OnItemClickListener {
 	private Button bt;
 	private ListView list;
 
-	private static final String csnURL = "http://chiasenhac.com/mp3/vietnam/";
+	private static final String csnURL = "http://chiasenhac.com/mp3/us-uk/";
 
 	public MainView(Context context) {
 		super(context, R.layout.second_view);

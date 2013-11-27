@@ -118,10 +118,7 @@ OnClickListener, OnSeekBarChangeListener, OnBufferingUpdateListener {
 		songProgressBar = new WeakReference<SeekBar>(
 				MusicPlayerView.songProgressBar);
 		songProgressBar.get().setOnSeekBarChangeListener(this);
-
-
 	}
-
 
 	/* new method */
 
@@ -146,7 +143,7 @@ OnClickListener, OnSeekBarChangeListener, OnBufferingUpdateListener {
 		return START_STICKY;
 	}
 
-	public void playSong(CSNMusicItem item) {
+	public void playSong(CSNMusicItem item) {		
 		// Play song
 		try {
 			mp.reset();
@@ -253,7 +250,7 @@ OnClickListener, OnSeekBarChangeListener, OnBufferingUpdateListener {
 
 		@Override
 		protected void onPostExecute(CSNMusicItem item) {
-			//Toast.makeText(getApplicationContext(), mItem.getLinkToPlay(), Toast.LENGTH_SHORT).show();
+			//Toast.makeText(getApplicationContext(), mItem.getLinkToPlay(), Toast.LENGTH_SHORT).show();			
 			playSong(mItem);				
 		}
 
@@ -265,6 +262,7 @@ OnClickListener, OnSeekBarChangeListener, OnBufferingUpdateListener {
 
 	@Override
 	public void onClick(View v) {
+		Toast.makeText(getBaseContext(), mLastIndex + "", Toast.LENGTH_SHORT).show();
 		// TODO Auto-generated method stub
 		switch (v.getId()) {
 		case R.id.btnPlay:
@@ -345,22 +343,17 @@ OnClickListener, OnSeekBarChangeListener, OnBufferingUpdateListener {
 			break;
 
 		case R.id.btnPrevious:
-			if (!isShuffle) {
-				if (mCurrentIndex > 0) {
-					mItemLink = mItemLinkList[mCurrentIndex - 1];
-					new PlayerTask().execute(mItemLink);
-					mCurrentIndex -= 1;
-				} else {
-					// play first song
-					mItemLink = mItemLinkList[0];
-					new PlayerTask().execute(mItemLink);
-					mCurrentIndex = 0;
-				}
-			} else {
+			if (mCurrentIndex > 0) {
 				mItemLink = mItemLinkList[mCurrentIndex - 1];
 				new PlayerTask().execute(mItemLink);
 				mCurrentIndex -= 1;
+			} else {
+				// play first song
+				mItemLink = mItemLinkList[0];
+				new PlayerTask().execute(mItemLink);
+				mCurrentIndex = 0;
 			}
+
 			break;
 
 		case R.id.btnRepeat:
