@@ -45,6 +45,10 @@ public class MainView extends BaseLayout implements OnItemClickListener {
 	
 	public static interface MainViewInterface {
 		public void onItemClickLoading(ListView lv, int pos);
+		
+		public void onItemClickListener(List<CSNMusicPlaylistItem> itemList, int pos);
+		
+		public void onItemClickLoading(AdapterView<?> arg0, View view, int pos, long arg3);
 	}
 
 	private MainViewInterface mInterface;
@@ -94,6 +98,11 @@ public class MainView extends BaseLayout implements OnItemClickListener {
 
 			return view;
 		}
+		
+		public List<CSNMusicPlaylistItem> getItems() {
+			// TODO Auto-generated method stub
+			return mCSNMusicItemList;
+		}
 	} 
 
 	static class CSNMusicItemViewHolder {
@@ -118,7 +127,6 @@ public class MainView extends BaseLayout implements OnItemClickListener {
 		@Override
 		protected List<CSNMusicPlaylistItem> doInBackground(String... params) {
 			for (String urlVal : params) { 
-				Log.d("NAM", urlVal);	
 				mMusicItemProcessor = new CSNMusicPlaylistParser(urlVal);
 				mCSNMusicItemList = mMusicItemProcessor.parse();
 			}
@@ -144,6 +152,7 @@ public class MainView extends BaseLayout implements OnItemClickListener {
 	public void onItemClick(AdapterView<?> arg0, View view, int pos, long arg3) {
 		// TODO Auto-generated method stub
 		
-		mInterface.onItemClickLoading(list, pos);		
+		//mInterface.onItemClickLoading(list, pos);
+		mInterface.onItemClickListener(mCSNMusicItemList, pos);
 	}
 }

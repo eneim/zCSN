@@ -20,6 +20,7 @@ public class MusicPlayerActivity extends Activity {
 	public Intent playerService;
 	public Intent mIntent, mServiceIntent;
 	public String mItemLink;
+	public String[] mItemLinkList;
 	public CSNMusicItem mItem;
 
 	@Override
@@ -35,10 +36,11 @@ public class MusicPlayerActivity extends Activity {
 	public void initPlayer() {
 		mIntent = getIntent();
 		mItemLink = mIntent.getStringExtra("link");		
-
-		Log.d("itemLink", mItemLink + "");	
+		mItemLinkList = mIntent.getStringArrayExtra("itemLinkList");
+		
 		mServiceIntent = new Intent(MusicPlayerActivity.this, MusicPlayerService.class);		
 		mServiceIntent.putExtra("itemLink", mItemLink);
+		mServiceIntent.putExtra("itemLinkList", mItemLinkList);
 		startService(mServiceIntent);
 	}
 
