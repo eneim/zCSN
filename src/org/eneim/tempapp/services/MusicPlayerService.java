@@ -262,7 +262,7 @@ OnClickListener, OnSeekBarChangeListener, OnBufferingUpdateListener {
 
 	@Override
 	public void onClick(View v) {
-		Toast.makeText(getBaseContext(), mLastIndex + "", Toast.LENGTH_SHORT).show();
+		//Toast.makeText(getBaseContext(), mLastIndex + "", Toast.LENGTH_SHORT).show();
 		// TODO Auto-generated method stub
 		switch (v.getId()) {
 		case R.id.btnPlay:
