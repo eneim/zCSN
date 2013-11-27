@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Random;
 
 import org.eneim.tempapp.MusicPlayerActivity;
 import org.eneim.tempapp.R;
@@ -43,6 +44,8 @@ import com.nostra13.universalimageloader.core.assist.SimpleImageLoadingListener;
 public class MusicPlayerService extends Service implements OnCompletionListener,
 OnClickListener, OnSeekBarChangeListener, OnBufferingUpdateListener {
 
+	public static MediaPlayer mp;
+
 	private WeakReference<ImageButton> btnRepeat, btnShuffle;
 	private WeakReference<ImageView> btnPlay, btnForward, btnBackward, btnNext,
 	btnPrevious;
@@ -51,7 +54,7 @@ OnClickListener, OnSeekBarChangeListener, OnBufferingUpdateListener {
 	private WeakReference<ImageView> songCover;
 	private WeakReference<TextView> songCurrentDurationLabel;
 	private WeakReference<TextView> songTotalDurationLabel;
-	public static MediaPlayer mp;
+
 	private Handler progressBarHandler = new Handler();;
 	private Utilities utils;
 	private int seekForwardTime = 5000; // 5000 milliseconds
@@ -59,16 +62,19 @@ OnClickListener, OnSeekBarChangeListener, OnBufferingUpdateListener {
 	private boolean isShuffle = false;
 	private boolean isRepeat = false;
 	private ArrayList<HashMap<String, String>> songsListingSD = new ArrayList<HashMap<String, String>>();
-	public static String currentSong = null;
 
+	private String[] mItemLinkList;
+	public static String mItemLink;
+	public static int mCurrentIndex = -1;
+	public static int mLastIndex = -1;
 	public static String linktoplay;
-	
+
 	public CSNMusicItem mItem;
 
 	@Override
 	public void onCreate() {
 		// TODO Auto-generated method stub
-		
+
 		mp = new MediaPlayer();
 		mp.setOnCompletionListener(this);
 		mp.setOnBufferingUpdateListener(this);
@@ -112,52 +118,29 @@ OnClickListener, OnSeekBarChangeListener, OnBufferingUpdateListener {
 		songProgressBar = new WeakReference<SeekBar>(
 				MusicPlayerView.songProgressBar);
 		songProgressBar.get().setOnSeekBarChangeListener(this);
-		
-				
+
+
 	}
 
-	
+
 	/* new method */
-	
+
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
-		initUI();		
-		String mItemLink = intent.getExtras().getString("itemLink");
-		
-		//Toast.makeText(getApplicationContext(), mItemLink, Toast.LENGTH_SHORT).show();
-		
-		new AsyncTask<String, Void, CSNMusicItem>() {
+		initUI();
 
-			ProgressDialog prog;
-			Handler innerHandler;
+		int mIndex = intent.getExtras().getInt("mIndex");
+		mItemLinkList = intent.getExtras().getStringArray("itemLinkList");
 
-			@Override
-			protected void onPreExecute() {
-				
-			}
+		if (mIndex != mCurrentIndex) {
+			mItemLink = mItemLinkList[mIndex];
+			new PlayerTask().execute(mItemLink);
+			mLastIndex = mCurrentIndex;
+			mCurrentIndex = mIndex;
+		} else if (mCurrentIndex != -1) {
+			// mIndex == mCurrentIndex != -1, i.e we click the song again
 
-			@Override
-			protected CSNMusicItem doInBackground(String... params) {
-				for (String urlVal : params) { 
-					Log.d("NAM", urlVal);	
-					CSNMusicItemParser mMusicItemParser = new CSNMusicItemParser();
-					mItem = mMusicItemParser.parse(urlVal);
-				}
-
-				return mItem;
-			}
-
-			@Override
-			protected void onPostExecute(CSNMusicItem item) {
-				//Toast.makeText(getApplicationContext(), mItem.getLinkToPlay(), Toast.LENGTH_SHORT).show();
-				playSong(mItem);				
-			}
-
-			@Override
-			protected void onProgressUpdate(Void... values) {						
-
-			}
-		}.execute(mItemLink);
+		}
 
 		super.onStartCommand(intent, flags, startId);
 		return START_STICKY;
@@ -248,6 +231,38 @@ OnClickListener, OnSeekBarChangeListener, OnBufferingUpdateListener {
 		}
 	};
 
+	public class PlayerTask extends AsyncTask<String, Void, CSNMusicItem> {
+		ProgressDialog prog;
+		Handler innerHandler;
+
+		@Override
+		protected void onPreExecute() {
+
+		}
+
+		@Override
+		protected CSNMusicItem doInBackground(String... params) {
+			for (String urlVal : params) { 
+				Log.d("NAM", urlVal);	
+				CSNMusicItemParser mMusicItemParser = new CSNMusicItemParser();
+				mItem = mMusicItemParser.parse(urlVal);
+			}
+
+			return mItem;
+		}
+
+		@Override
+		protected void onPostExecute(CSNMusicItem item) {
+			//Toast.makeText(getApplicationContext(), mItem.getLinkToPlay(), Toast.LENGTH_SHORT).show();
+			playSong(mItem);				
+		}
+
+		@Override
+		protected void onProgressUpdate(Void... values) {						
+
+		}
+	};
+
 	@Override
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
@@ -276,16 +291,29 @@ OnClickListener, OnSeekBarChangeListener, OnBufferingUpdateListener {
 			break;
 
 		case R.id.btnNext:
-			// check if next song is there or not
-			Log.d("Player Service", "Next");
-			//			if (currentSongIndex < (songsListingSD.size() - 1)) {
-			//				playSong(currentSongIndex + 1);
-			//				currentSongIndex = currentSongIndex + 1;
-			//			} else {
-			//				// play first song
-			//				playSong(0);
-			//				currentSongIndex = 0;
-			//			}
+
+			if (!isShuffle) {
+				// check if next song is there or not
+				Log.d("Player Service", "Next");
+				if (mCurrentIndex < (mItemLinkList.length - 1)) {
+					mItemLink = mItemLinkList[mCurrentIndex + 1];
+					new PlayerTask().execute(mItemLink);
+					mLastIndex = mCurrentIndex;
+					mCurrentIndex += 1;
+				} else {
+					// play first song
+					mItemLink = mItemLinkList[0];
+					new PlayerTask().execute(mItemLink);
+					mLastIndex = mCurrentIndex;
+					mCurrentIndex = 0;
+				}
+			} else {
+				mLastIndex = mCurrentIndex;
+				Random rand = new Random();
+				mCurrentIndex = rand.nextInt((mItemLinkList.length - 1) - 0 + 1) + 0;
+				new PlayerTask().execute(mItemLinkList[mCurrentIndex]);
+			}
+
 			break;
 
 		case R.id.btnForward:
@@ -300,6 +328,7 @@ OnClickListener, OnSeekBarChangeListener, OnBufferingUpdateListener {
 				// forward to end position
 				mp.seekTo(mp.getDuration());
 			}
+
 			break;
 
 		case R.id.btnBackward:
@@ -316,15 +345,22 @@ OnClickListener, OnSeekBarChangeListener, OnBufferingUpdateListener {
 			break;
 
 		case R.id.btnPrevious:
-
-			//			if (currentSongIndex > 0) {
-			//				playSong(currentSongIndex - 1);
-			//				currentSongIndex = currentSongIndex - 1;
-			//			} else {
-			//				// play last song
-			//				playSong(songsListingSD.size() - 1);
-			//				currentSongIndex = songsListingSD.size() - 1;
-			//			}
+			if (!isShuffle) {
+				if (mCurrentIndex > 0) {
+					mItemLink = mItemLinkList[mCurrentIndex - 1];
+					new PlayerTask().execute(mItemLink);
+					mCurrentIndex -= 1;
+				} else {
+					// play first song
+					mItemLink = mItemLinkList[0];
+					new PlayerTask().execute(mItemLink);
+					mCurrentIndex = 0;
+				}
+			} else {
+				mItemLink = mItemLinkList[mCurrentIndex - 1];
+				new PlayerTask().execute(mItemLink);
+				mCurrentIndex -= 1;
+			}
 			break;
 
 		case R.id.btnRepeat:
@@ -407,7 +443,7 @@ OnClickListener, OnSeekBarChangeListener, OnBufferingUpdateListener {
 		// TODO Auto-generated method stub
 		songProgressBar.get().setSecondaryProgress(percent);
 	}
-	
+
 	@Override
 	/**
 	 * On Song Playing completed if repeat is ON play same song again if shuffle
@@ -416,26 +452,27 @@ OnClickListener, OnSeekBarChangeListener, OnBufferingUpdateListener {
 	public void onCompletion(MediaPlayer arg0) {
 
 		// check for repeat is ON or OFF
-//		if (isRepeat) {
-//			// repeat is on play same song again
-//			//playSong(currentSongIndex);
-//		} else if (isShuffle) {
-//			// shuffle is on - play a random song
-//			Random rand = new Random();
-//			currentSongIndex = rand
-//					.nextInt((songsListingSD.size() - 1) - 0 + 1) + 0;
-//			//playSong(currentSongIndex);
-//		} else {
-//			// no repeat or shuffle ON - play next song
-//			if (currentSongIndex < (songsListingSD.size() - 1)) {
-//				//playSong(currentSongIndex + 1);
-//				currentSongIndex = currentSongIndex + 1;
-//			} else {
-//				// play first song
-//				//playSong(0);
-//				currentSongIndex = 0;
-//			}
-//		}
+		if (isRepeat) {
+			// repeat is on play same song again
+			new PlayerTask().execute(mItemLinkList[mCurrentIndex]);
+		} else if (isShuffle) {
+			// shuffle is on - play a random song
+			Random rand = new Random();
+			mCurrentIndex = rand.nextInt((mItemLinkList.length - 1) - 0 + 1) + 0;
+			new PlayerTask().execute(mItemLinkList[mCurrentIndex]);
+		} else {
+			// no repeat or shuffle ON - play next song
+			if (mCurrentIndex < (mItemLinkList.length - 1)) {
+				mItemLink = mItemLinkList[mCurrentIndex + 1];
+				new PlayerTask().execute(mItemLink);
+				mCurrentIndex += 1;
+			} else {
+				// play first song
+				mItemLink = mItemLinkList[0];
+				new PlayerTask().execute(mItemLink);
+				mCurrentIndex = 0;
+			}
+		}
 	}
 
 	@Override

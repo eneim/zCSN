@@ -19,7 +19,7 @@ public class MusicPlayerActivity extends Activity {
 
 	public Intent playerService;
 	public Intent mIntent, mServiceIntent;
-	public String mItemLink;
+	public int mIndex;
 	public String[] mItemLinkList;
 	public CSNMusicItem mItem;
 
@@ -35,11 +35,11 @@ public class MusicPlayerActivity extends Activity {
 
 	public void initPlayer() {
 		mIntent = getIntent();
-		mItemLink = mIntent.getStringExtra("link");		
+		mIndex = mIntent.getIntExtra("mIndex", -1);		
 		mItemLinkList = mIntent.getStringArrayExtra("itemLinkList");
 		
 		mServiceIntent = new Intent(MusicPlayerActivity.this, MusicPlayerService.class);		
-		mServiceIntent.putExtra("itemLink", mItemLink);
+		mServiceIntent.putExtra("mIndex", mIndex);
 		mServiceIntent.putExtra("itemLinkList", mItemLinkList);
 		startService(mServiceIntent);
 	}

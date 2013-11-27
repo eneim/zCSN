@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eneim.tempapp.items.CSNMusicPlaylistItem;
+import org.eneim.tempapp.services.MusicPlayerService;
 import org.eneim.tempapp.view.MainView;
 import org.eneim.tempapp.view.MainView.MainViewInterface;
 
@@ -67,7 +68,7 @@ public class MainActivity extends Activity implements MainViewInterface {
 		String itemUrl = item.getItemUrl();				
 		Log.d("CSN", itemUrl + "");
 		in.putExtra("itemLinkList", itemLinksList.toArray(new String[itemLinksList.size()]));
-		in.putExtra("link", itemUrl);
+		in.putExtra("mIndex", pos);
 		this.startActivity(in);
 
 	}
