@@ -52,7 +52,7 @@ public class MainActivity extends Activity implements MainViewInterface {
 	}
 
 	@Override
-	public void onItemClickListener(List<CSNMusicPlaylistItem> itemList, int pos) {
+	public void onItemClickCustomListener(List<CSNMusicPlaylistItem> itemList, int pos) {
 		// TODO Auto-generated method stub
 		Intent in = new Intent(this, MusicPlayerActivity.class);		
 		List<String> itemLinksList = new ArrayList<String>();

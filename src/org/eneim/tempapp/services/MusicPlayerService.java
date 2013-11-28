@@ -97,7 +97,10 @@ OnClickListener, OnSeekBarChangeListener, OnBufferingUpdateListener {
 				MusicPlayerView.songCurrentDurationLabel);
 		songTotalDurationLabel = new WeakReference<TextView>(
 				MusicPlayerView.songTotalDurationLabel);
-
+		
+		songCover.get().setImageResource(R.drawable.adele);
+		songTitleLabel.get().setText("");
+		
 		btnPlay = new WeakReference<ImageView>(MusicPlayerView.btnPlay);
 		btnForward = new WeakReference<ImageView>(MusicPlayerView.btnForward);
 		btnBackward = new WeakReference<ImageView>(MusicPlayerView.btnBackward);
@@ -116,7 +119,7 @@ OnClickListener, OnSeekBarChangeListener, OnBufferingUpdateListener {
 		// TODO Auto-generated method stub
 
 		songProgressBar = new WeakReference<SeekBar>(
-				MusicPlayerView.songProgressBar);
+				MusicPlayerView.songProgressBar);		
 		songProgressBar.get().setOnSeekBarChangeListener(this);
 	}
 
@@ -125,7 +128,6 @@ OnClickListener, OnSeekBarChangeListener, OnBufferingUpdateListener {
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
 		initUI();
-
 		int mIndex = intent.getExtras().getInt("mIndex");
 		mItemLinkList = intent.getExtras().getStringArray("itemLinkList");
 
@@ -234,7 +236,8 @@ OnClickListener, OnSeekBarChangeListener, OnBufferingUpdateListener {
 
 		@Override
 		protected void onPreExecute() {
-
+			if (mp != null && mp.isPlaying())
+				mp.stop();			
 		}
 
 		@Override
@@ -289,7 +292,8 @@ OnClickListener, OnSeekBarChangeListener, OnBufferingUpdateListener {
 			break;
 
 		case R.id.btnNext:
-
+			initUI();
+			
 			if (!isShuffle) {
 				// check if next song is there or not
 				Log.d("Player Service", "Next");
@@ -343,6 +347,8 @@ OnClickListener, OnSeekBarChangeListener, OnBufferingUpdateListener {
 			break;
 
 		case R.id.btnPrevious:
+			initUI();
+			
 			if (mCurrentIndex > 0) {
 				mItemLink = mItemLinkList[mCurrentIndex - 1];
 				new PlayerTask().execute(mItemLink);

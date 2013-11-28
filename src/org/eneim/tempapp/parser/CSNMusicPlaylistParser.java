@@ -46,7 +46,7 @@ public class CSNMusicPlaylistParser {
 		try {
 			
 			long start = System.nanoTime();
-			Connection jconnect = Jsoup.connect(url); 
+			Connection jconnect = Jsoup.connect(url).header("Accept-Encoding", "gzip"); 
 			long end = System.nanoTime();
 			Log.d("TIME", "connect:\t" + Long.toString((end - start)/1000000) + "miliseconds");
 			
@@ -58,7 +58,7 @@ public class CSNMusicPlaylistParser {
 			start = System.nanoTime();
 			topMusicItems = doc.select("div.h-main4 div.h-center").first();
 			
-			items = topMusicItems.select("div.list-r.list-1"); // list nhac vietnam
+			items = topMusicItems.select("div.list-r.list-1");
 			end = System.nanoTime();			
 			Log.d("SIZE", "\t" + items.size());
 			Log.d("TIME", "first select:\t" + Long.toString((end - start)/1000000) + "miliseconds");			

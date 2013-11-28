@@ -46,7 +46,7 @@ public class MainView extends BaseLayout implements OnItemClickListener {
 	public static interface MainViewInterface {
 		public void onItemClickLoading(ListView lv, int pos);
 		
-		public void onItemClickListener(List<CSNMusicPlaylistItem> itemList, int pos);
+		public void onItemClickCustomListener(List<CSNMusicPlaylistItem> itemList, int pos);
 		
 		public void onItemClickLoading(AdapterView<?> arg0, View view, int pos, long arg3);
 	}
@@ -153,6 +153,6 @@ public class MainView extends BaseLayout implements OnItemClickListener {
 		// TODO Auto-generated method stub
 		
 		//mInterface.onItemClickLoading(list, pos);
-		mInterface.onItemClickListener(mCSNMusicItemList, pos);
+		mInterface.onItemClickCustomListener(mCSNMusicItemList, pos);
 	}
 }
