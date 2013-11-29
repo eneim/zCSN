@@ -226,7 +226,6 @@ OnClickListener, OnSeekBarChangeListener, OnBufferingUpdateListener {
 			songProgressBar.get().setProgress(progress);
 			// Running this thread after 100 milliseconds
 			progressBarHandler.postDelayed(this, 100);
-			// Log.d("AndroidBuildingMusicPlayerActivity","Runable  progressbar");
 		}
 	};
 
