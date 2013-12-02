@@ -57,10 +57,6 @@ public class CSNMusicItem {
 		this.linkToPlay = linkToPlay;
 	}
 
-	private CSNMusicItem(Parcel in) {
-        itemLink = in.readString();
-    }
-	
 	public String getItemLink() { return itemLink; }
 
 	public String getID() { return id; }
