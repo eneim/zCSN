@@ -13,11 +13,6 @@
         android:paddingBottom="4dp"
         android:paddingTop="4dp"
         android:textColor="#fff" />
-
-    <ListView
-        android:id="@+id/view_subplaylist_music"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent" >
-    </ListView>
+    
 
 </android.support.v4.view.ViewPager>

@@ -1,16 +1,22 @@
 package org.eneim.tempapp.fragments;
 
 import java.util.ArrayList;
+import java.util.List;
 
+import org.eneim.tempapp.MusicPlayerActivity;
 import org.eneim.tempapp.R;
+import org.eneim.tempapp.items.CSNMusicPlaylistItem;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
+import android.util.Log;
+import android.widget.Toast;
 
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
@@ -38,7 +44,7 @@ public class MainFragmentActivity extends SlidingFragmentActivity {
 		mViewPager = (ViewPager) findViewById(R.id.pager);
 		mListAdapter = new MainListFragmentAdapter(getSupportFragmentManager());
 		mViewPager.setAdapter(mListAdapter);
-
+		
 		mViewPager.setOnPageChangeListener(new OnPageChangeListener() {
 			@Override
 			public void onPageScrollStateChanged(int arg0) { }
@@ -97,23 +103,36 @@ public class MainFragmentActivity extends SlidingFragmentActivity {
 
 	public class MainListFragmentAdapter extends FragmentPagerAdapter {
 
+		private FragmentManager mFragmentManager;
+		private DataListFragment2 mListFragment;
+		
 		private ArrayList<Fragment> mFragments;
 		
 		public MainListFragmentAdapter(FragmentManager fm) {
 			super(fm);
 			// add fragments to pager here
+			mFragmentManager = fm;
 			mFragments = new ArrayList<Fragment>();
-			mFragments.add(new DataListFragment(getApplicationContext(), "http://chiasenhac.com/mp3/vietnam/"));
-			mFragments.add(new DataListFragment(getApplicationContext(), "http://chiasenhac.com/mp3/us-uk/"));
-			mFragments.add(new DataListFragment(getApplicationContext(), "http://chiasenhac.com/mp3/chinese/"));
-			mFragments.add(new DataListFragment(getApplicationContext(), "http://chiasenhac.com/mp3/korea/"));
-			mFragments.add(new DataListFragment(getApplicationContext(), "http://chiasenhac.com/mp3/other/"));
+			
+			mFragments.add(new DataListFragment2(getApplicationContext(), "http://chiasenhac.com/mp3/vietnam/"));
+			mFragments.add(new DataListFragment2(getApplicationContext(), "http://chiasenhac.com/mp3/us-uk/"));
+			mFragments.add(new DataListFragment2(getApplicationContext(), "http://chiasenhac.com/mp3/chinese/"));
+			mFragments.add(new DataListFragment2(getApplicationContext(), "http://chiasenhac.com/mp3/korea/"));
+			mFragments.add(new DataListFragment2(getApplicationContext(), "http://chiasenhac.com/mp3/other/"));
+			
+//			mFragments.add(new DataListFragment());
+//			mFragments.add(new DataListFragment());
+//			mFragments.add(new DataListFragment());
+//			mFragments.add(new DataListFragment());
 		}
 
 		@Override
 		public Fragment getItem(int arg0) {
-			// TODO Auto-generated method stub			
-			return mFragments.get(arg0);
+			// TODO Auto-generated method stub	
+			mListFragment = (DataListFragment2) mFragments.get(arg0);
+			
+			return mListFragment;
+			//return null;
 		}
 
 		@Override
@@ -122,5 +141,5 @@ public class MainFragmentActivity extends SlidingFragmentActivity {
 			return mFragments.size();
 		}
 
-	}
+	}	
 }
