@@ -147,9 +147,9 @@ public class DataListFragment2 extends ListFragment {
 
 		@Override
 		protected void onPreExecute() { 
-			prog = new ProgressDialog(getActivity()); 
-			prog.setMessage("Loading...."); 
-			prog.show();
+//			prog = new ProgressDialog(getActivity()); 
+//			prog.setMessage("Loading...."); 
+//			prog.show();
 		}
 
 		@Override
@@ -164,7 +164,7 @@ public class DataListFragment2 extends ListFragment {
 
 		@Override
 		protected void onPostExecute(List<CSNMusicPlaylistItem> result) {
-			prog.dismiss(); 
+			//prog.dismiss(); 
 			mCSNMusicAdapter = new CSNMusicAdapter(mContext, R.layout.item_music, 
 					mCSNMusicItemList);
 			list.setAdapter(mCSNMusicAdapter);

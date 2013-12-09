@@ -30,7 +30,7 @@ import android.widget.TextView;
 @SuppressLint("ValidFragment")
 public class DataListFragment3 extends ListFragment implements LoaderManager.LoaderCallbacks<List<CSNMusicPlaylistItem>> {
 
-	public static String mURL;
+	public String mURL;
 	public Context mContext;
 		
 	private List<CSNMusicPlaylistItem> mCSNMusicItemList;
@@ -42,11 +42,7 @@ public class DataListFragment3 extends ListFragment implements LoaderManager.Loa
 	public DataListFragment3(Context context, String source) {
 		mURL = source;
 		mContext = context;
-	}
-	
-	public static String getURL() {
-		return mURL;
-	}
+	}	
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -159,61 +155,27 @@ public class DataListFragment3 extends ListFragment implements LoaderManager.Loa
 		public TextView mskDownloadedView; 
 		public TextView mskFormatView;
 	}
-	
-	public class DoCSNMusicTask extends AsyncTask<String, Void, List<CSNMusicPlaylistItem>> {
-		ProgressDialog prog;
-		Handler innerHandler; 
-
-		@Override
-		protected void onPreExecute() { 
-			prog = new ProgressDialog(getActivity()); 
-			prog.setMessage("Loading...."); 
-			prog.show();
-		}
-
-		@Override
-		protected List<CSNMusicPlaylistItem> doInBackground(String... params) {
-			for (String urlVal : params) { 
-				mMusicItemProcessor = new CSNMusicPlaylistParser(urlVal);
-				mCSNMusicItemList = mMusicItemProcessor.parse();
-			}
-
-			return mCSNMusicItemList; 
-		}
-
-		@Override
-		protected void onPostExecute(List<CSNMusicPlaylistItem> result) {
-			prog.dismiss(); 
-			mCSNMusicAdapter = new CSNMusicAdapter(mContext, R.layout.item_music, 
-					mCSNMusicItemList);
-			list.setAdapter(mCSNMusicAdapter);
-		}
-
-		@Override
-		protected void onProgressUpdate(Void... values) { 
-
-		}
-	}
 
 	public static class DataListLoader extends AsyncTaskLoader<List<CSNMusicPlaylistItem>> {
 
-		private String mURL = DataListFragment3.getURL();
-		private List<CSNMusicPlaylistItem> mCSNMusicItemList;
+		private String _URL;
+		private List<CSNMusicPlaylistItem> mItemList;
 		private CSNMusicPlaylistParser mMusicItemProcessor;
 		
-		public DataListLoader(Context context) {
-			super(context);
-			
+		public DataListLoader(Context context, String url) {
+			super(context);			
 			// TODO Auto-generated constructor stub
+			_URL = url;
 		}
 
 		@Override
 		public List<CSNMusicPlaylistItem> loadInBackground() {
 			// TODO Auto-generated method stub
-			mMusicItemProcessor = new CSNMusicPlaylistParser(mURL);
-			mCSNMusicItemList = mMusicItemProcessor.parse();
+			Log.d("mURL-Loader", _URL + "");
+			mMusicItemProcessor = new CSNMusicPlaylistParser(_URL);
+			mItemList = mMusicItemProcessor.parse();
 			
-			return mCSNMusicItemList;
+			return mItemList;
 		}
 		
 		@Override
@@ -227,7 +189,7 @@ public class DataListFragment3 extends ListFragment implements LoaderManager.Loa
 			}
 			
 			List<CSNMusicPlaylistItem> oldData = data;
-			mCSNMusicItemList = data;
+			mItemList = data;
 			
 			if (isStarted()) {
 				// if the loader is currently started, we can immediately
@@ -245,17 +207,17 @@ public class DataListFragment3 extends ListFragment implements LoaderManager.Loa
          */
 		@Override
 		protected void onStartLoading() {
-			if (mCSNMusicItemList != null) {
+			if (mItemList != null) {
 				// if we currently have a result available, deliver it
 				// immediately				
-				deliverResult(mCSNMusicItemList);
+				deliverResult(mItemList);
 			}
 			
-			if (takeContentChanged() || mCSNMusicItemList == null) {
+			if (takeContentChanged() || mItemList == null) {
 				// if the data has changed since the last time it was loaded
 				// or is not currently available, start a load
 				forceLoad();
-			}			
+			}
 		}
 		
 		/**
@@ -292,9 +254,9 @@ public class DataListFragment3 extends ListFragment implements LoaderManager.Loa
 			
 			// at this point, we can release the resources associated with "data"
 			// if needed			
-			if (mCSNMusicItemList != null) {
-				onReleaseResources(mCSNMusicItemList);
-				mCSNMusicItemList = null;
+			if (mItemList != null) {
+				onReleaseResources(mItemList);
+				mItemList = null;
 			}
 		}
 		
@@ -308,25 +270,22 @@ public class DataListFragment3 extends ListFragment implements LoaderManager.Loa
 	}
 
 	@Override
-	public Loader<List<CSNMusicPlaylistItem>> onCreateLoader(int arg0,
-			Bundle arg1) {
+	public Loader<List<CSNMusicPlaylistItem>> onCreateLoader(int arg0,	Bundle arg1) {
 		// TODO Auto-generated method stub
-		return new DataListLoader(getActivity());
+		return new DataListLoader(getActivity(), mURL);
 	}
 
 	@Override
 	public void onLoadFinished(Loader<List<CSNMusicPlaylistItem>> arg0,
 			List<CSNMusicPlaylistItem> arg1) {
 		// TODO Auto-generated method stub
-		mCSNMusicAdapter.setData(arg1);
-		
+		mCSNMusicAdapter.setData(arg1);		
 	}
 
 	@Override
 	public void onLoaderReset(Loader<List<CSNMusicPlaylistItem>> arg0) {
 		// TODO Auto-generated method stub
-		mCSNMusicAdapter.setData(null);
-		
+		mCSNMusicAdapter.setData(null);		
 	}
 
 

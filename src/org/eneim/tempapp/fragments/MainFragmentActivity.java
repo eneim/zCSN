@@ -33,7 +33,7 @@ public class MainFragmentActivity extends SlidingFragmentActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
-
+		mContext = this;
 		// layout out viewpager on the top
 		setContentView(R.layout.activity_pager);
 
@@ -104,7 +104,8 @@ public class MainFragmentActivity extends SlidingFragmentActivity {
 	public class MainListFragmentAdapter extends FragmentPagerAdapter {
 
 		private FragmentManager mFragmentManager;
-		private DataListFragment2 mListFragment;
+//		private DataListFragment2 mListFragment;
+		private DataListFragment3 mListFragment;
 		
 		private ArrayList<Fragment> mFragments;
 		
@@ -114,11 +115,17 @@ public class MainFragmentActivity extends SlidingFragmentActivity {
 			mFragmentManager = fm;
 			mFragments = new ArrayList<Fragment>();
 			
-			mFragments.add(new DataListFragment2(getApplicationContext(), "http://chiasenhac.com/mp3/vietnam/"));
-			mFragments.add(new DataListFragment2(getApplicationContext(), "http://chiasenhac.com/mp3/us-uk/"));
-			mFragments.add(new DataListFragment2(getApplicationContext(), "http://chiasenhac.com/mp3/chinese/"));
-			mFragments.add(new DataListFragment2(getApplicationContext(), "http://chiasenhac.com/mp3/korea/"));
-			mFragments.add(new DataListFragment2(getApplicationContext(), "http://chiasenhac.com/mp3/other/"));
+//			mFragments.add(new DataListFragment2(getApplicationContext(), "http://chiasenhac.com/mp3/vietnam/"));
+//			mFragments.add(new DataListFragment2(getApplicationContext(), "http://chiasenhac.com/mp3/us-uk/"));
+//			mFragments.add(new DataListFragment2(getApplicationContext(), "http://chiasenhac.com/mp3/chinese/"));
+//			mFragments.add(new DataListFragment2(getApplicationContext(), "http://chiasenhac.com/mp3/korea/"));
+//			mFragments.add(new DataListFragment2(getApplicationContext(), "http://chiasenhac.com/mp3/other/"));
+		
+			mFragments.add(new DataListFragment3(getApplicationContext(), "http://chiasenhac.com/mp3/vietnam/"));
+			mFragments.add(new DataListFragment3(getApplicationContext(), "http://chiasenhac.com/mp3/us-uk/"));
+			mFragments.add(new DataListFragment3(getApplicationContext(), "http://chiasenhac.com/mp3/chinese/"));
+			mFragments.add(new DataListFragment3(getApplicationContext(), "http://chiasenhac.com/mp3/korea/"));
+			mFragments.add(new DataListFragment3(getApplicationContext(), "http://chiasenhac.com/mp3/other/"));
 			
 //			mFragments.add(new DataListFragment());
 //			mFragments.add(new DataListFragment());
@@ -129,7 +136,8 @@ public class MainFragmentActivity extends SlidingFragmentActivity {
 		@Override
 		public Fragment getItem(int arg0) {
 			// TODO Auto-generated method stub	
-			mListFragment = (DataListFragment2) mFragments.get(arg0);
+//			mListFragment = (DataListFragment2) mFragments.get(arg0);
+			mListFragment = (DataListFragment3) mFragments.get(arg0);
 			
 			return mListFragment;
 			//return null;
