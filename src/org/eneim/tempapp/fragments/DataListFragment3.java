@@ -9,12 +9,9 @@ import org.eneim.tempapp.items.CSNMusicPlaylistItem;
 import org.eneim.tempapp.parser.CSNMusicPlaylistParser;
 
 import android.annotation.SuppressLint;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.app.ListFragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.AsyncTaskLoader;
@@ -34,7 +31,7 @@ public class DataListFragment3 extends ListFragment implements LoaderManager.Loa
 	public Context mContext;
 		
 	private List<CSNMusicPlaylistItem> mCSNMusicItemList;
-	private CSNMusicPlaylistParser mMusicItemProcessor;
+	//private CSNMusicPlaylistParser mMusicItemProcessor;
 	private CSNMusicAdapter mCSNMusicAdapter;
 	
 	private ListView list;
@@ -132,12 +129,7 @@ public class DataListFragment3 extends ListFragment implements LoaderManager.Loa
 
 			return view;
 		}
-		
-		public List<CSNMusicPlaylistItem> getItems() {
-			// TODO Auto-generated method stub
-			return mCSNMusicItemList;
-		}
-		
+				
 		public void setData(List<CSNMusicPlaylistItem> data) {
 	        clear();
 	        if (data != null) {

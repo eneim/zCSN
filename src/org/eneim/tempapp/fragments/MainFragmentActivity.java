@@ -1,22 +1,15 @@
 package org.eneim.tempapp.fragments;
 
 import java.util.ArrayList;
-import java.util.List;
 
-import org.eneim.tempapp.MusicPlayerActivity;
 import org.eneim.tempapp.R;
-import org.eneim.tempapp.items.CSNMusicPlaylistItem;
 
-import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
-import android.util.Log;
-import android.widget.Toast;
 
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
@@ -25,7 +18,7 @@ import com.jeremyfeinstein.slidingmenu.lib.app.SlidingFragmentActivity;
 
 public class MainFragmentActivity extends SlidingFragmentActivity {
 
-	private Context mContext;
+	//private Context mContext;
 	private ViewPager mViewPager;
 	private MainListFragmentAdapter mListAdapter;
 
@@ -33,14 +26,13 @@ public class MainFragmentActivity extends SlidingFragmentActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
-		mContext = this;
 		// layout out viewpager on the top
 		setContentView(R.layout.activity_pager);
 
 		// menu is set to behind
 		setBehindContentView(R.layout.menu_frame);
 
-		mContext = this;
+		//mContext = this;
 		mViewPager = (ViewPager) findViewById(R.id.pager);
 		mListAdapter = new MainListFragmentAdapter(getSupportFragmentManager());
 		mViewPager.setAdapter(mListAdapter);
@@ -103,8 +95,7 @@ public class MainFragmentActivity extends SlidingFragmentActivity {
 
 	public class MainListFragmentAdapter extends FragmentPagerAdapter {
 
-		private FragmentManager mFragmentManager;
-//		private DataListFragment2 mListFragment;
+		//private FragmentManager mFragmentManager;
 		private DataListFragment3 mListFragment;
 		
 		private ArrayList<Fragment> mFragments;
@@ -112,31 +103,20 @@ public class MainFragmentActivity extends SlidingFragmentActivity {
 		public MainListFragmentAdapter(FragmentManager fm) {
 			super(fm);
 			// add fragments to pager here
-			mFragmentManager = fm;
+			//mFragmentManager = fm;
 			mFragments = new ArrayList<Fragment>();
-			
-//			mFragments.add(new DataListFragment2(getApplicationContext(), "http://chiasenhac.com/mp3/vietnam/"));
-//			mFragments.add(new DataListFragment2(getApplicationContext(), "http://chiasenhac.com/mp3/us-uk/"));
-//			mFragments.add(new DataListFragment2(getApplicationContext(), "http://chiasenhac.com/mp3/chinese/"));
-//			mFragments.add(new DataListFragment2(getApplicationContext(), "http://chiasenhac.com/mp3/korea/"));
-//			mFragments.add(new DataListFragment2(getApplicationContext(), "http://chiasenhac.com/mp3/other/"));
-		
+
 			mFragments.add(new DataListFragment3(getApplicationContext(), "http://chiasenhac.com/mp3/vietnam/"));
 			mFragments.add(new DataListFragment3(getApplicationContext(), "http://chiasenhac.com/mp3/us-uk/"));
 			mFragments.add(new DataListFragment3(getApplicationContext(), "http://chiasenhac.com/mp3/chinese/"));
 			mFragments.add(new DataListFragment3(getApplicationContext(), "http://chiasenhac.com/mp3/korea/"));
 			mFragments.add(new DataListFragment3(getApplicationContext(), "http://chiasenhac.com/mp3/other/"));
 			
-//			mFragments.add(new DataListFragment());
-//			mFragments.add(new DataListFragment());
-//			mFragments.add(new DataListFragment());
-//			mFragments.add(new DataListFragment());
 		}
 
 		@Override
 		public Fragment getItem(int arg0) {
 			// TODO Auto-generated method stub	
-//			mListFragment = (DataListFragment2) mFragments.get(arg0);
 			mListFragment = (DataListFragment3) mFragments.get(arg0);
 			
 			return mListFragment;
