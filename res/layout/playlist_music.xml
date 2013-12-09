@@ -3,16 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent" > 
-  
-    <TextView
-        android:id="@+id/textView1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:text="Top Vietnam Music"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
-    
+   
     <ListView
         android:id="@+id/view_subplaylist_music"
         android:layout_width="fill_parent"

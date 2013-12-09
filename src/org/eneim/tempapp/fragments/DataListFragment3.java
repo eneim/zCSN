@@ -163,7 +163,6 @@ public class DataListFragment3 extends ListFragment implements LoaderManager.Loa
 		@Override
 		public List<CSNMusicPlaylistItem> loadInBackground() {
 			// TODO Auto-generated method stub
-			Log.d("mURL-Loader", _URL + "");
 			mMusicItemProcessor = new CSNMusicPlaylistParser(_URL);
 			mItemList = mMusicItemProcessor.parse();
 			

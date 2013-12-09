@@ -45,28 +45,16 @@ public class CSNMusicPlaylistParser {
 		
 		try {
 			
-			long start = System.nanoTime();
 			Connection jconnect = Jsoup.connect(url).header("Accept-Encoding", "gzip"); 
-			long end = System.nanoTime();
-			Log.d("TIME", "connect:\t" + Long.toString((end - start)/1000000) + "miliseconds");
 			
-			start = System.nanoTime();
 			doc = jconnect.get();
-			end = System.nanoTime();			
-			Log.d("TIME", "get:\t" + Long.toString((end - start)/1000000) + "miliseconds");
-			
-			start = System.nanoTime();
 			topMusicItems = doc.select("div.h-main4 div.h-center").first();
 			
 			items = topMusicItems.select("div.list-r.list-1");
-			end = System.nanoTime();			
 			Log.d("SIZE", "\t" + items.size());
-			Log.d("TIME", "first select:\t" + Long.toString((end - start)/1000000) + "miliseconds");			
 			
 			if (items.size() > 0) {
 				for (int i = 0; i < items.size(); i++) {
-					start = System.nanoTime();
-					
 					mskItem = items.get(i);
 					title = mskItem.select("div.text2 a.txtsp1").first().text();
 					performer = mskItem.select("div.text2 p.spd1").first().text();
@@ -81,10 +69,7 @@ public class CSNMusicPlaylistParser {
 					listened = null;
 					
 					csnMskItem = new CSNMusicPlaylistItem(itemUrl, title, performer, coverURL, listened, downloaded, length, format);
-					resultList.add(csnMskItem);
-					
-					end = System.nanoTime();
-					Log.d("TIME", "for " + (i + 1) + "th item:\t" + Long.toString((end - start)/1000000) + "miliseconds");																
+					resultList.add(csnMskItem);																					
 				}
 				
 				mskItem = topMusicItems.select("div.list-r.list-2").first();
@@ -102,9 +87,7 @@ public class CSNMusicPlaylistParser {
 				
 				csnMskItem = new CSNMusicPlaylistItem(itemUrl, title, performer, coverURL, listened, downloaded, length, format);
 				resultList.add(csnMskItem);
-				
-				end = System.nanoTime();			
-				Log.d("TIME", "for 10th item:\t" + Long.toString((end - start)/1000000) + "miliseconds");	
+									
 			}
 			
 			else return resultList;			
