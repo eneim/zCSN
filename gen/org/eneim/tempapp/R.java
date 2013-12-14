@@ -1159,7 +1159,7 @@ containing a value of this type.
         public static final int songTitle=0x7f040048;
         public static final int songTotalDurationLabel=0x7f040055;
         public static final int tabMode=0x7f040003;
-        public static final int textView1=0x7f040058;
+        public static final int textView1=0x7f040059;
         public static final int text_first=0x7f04003a;
         public static final int timerDisplay=0x7f040053;
         public static final int tv_id=0x7f04005e;
@@ -1167,7 +1167,7 @@ containing a value of this type.
         public static final int useLogo=0x7f040004;
         public static final int view1=0x7f04003e;
         public static final int view2=0x7f040042;
-        public static final int view_subplaylist_music=0x7f040059;
+        public static final int view_subplaylist_music=0x7f040058;
         public static final int wrap_content=0x7f040000;
     }
     public static final class integer {
