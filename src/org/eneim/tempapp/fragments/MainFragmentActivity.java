@@ -67,11 +67,11 @@ public class MainFragmentActivity extends SlidingFragmentActivity {
 		mSlidingMenu.setShadowWidthRes(R.dimen.shadow_width);
 		mSlidingMenu.setShadowDrawable(R.drawable.shadow);
 		mSlidingMenu.setBehindOffsetRes(R.dimen.slidingmenu_offset);
-		mSlidingMenu.setFadeDegree(0.35f);
+		mSlidingMenu.setFadeDegree(0.25f);
 		mSlidingMenu.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
 		//mSlidingMenu.setTouchModeAbove(SlidingMenu.TOUCHMODE_MARGIN);
 		
-		//getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 	}
 
 	@Override
@@ -102,8 +102,6 @@ public class MainFragmentActivity extends SlidingFragmentActivity {
 		
 		public MainListFragmentAdapter(FragmentManager fm) {
 			super(fm);
-			// add fragments to pager here
-			//mFragmentManager = fm;
 			mFragments = new ArrayList<Fragment>();
 
 			mFragments.add(new DataListFragment3(getApplicationContext(), "http://chiasenhac.com/mp3/vietnam/"));
