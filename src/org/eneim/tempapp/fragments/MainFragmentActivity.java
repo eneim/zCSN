@@ -111,7 +111,6 @@ public class MainFragmentActivity extends SlidingFragmentActivity {
 			mFragments.add(new DataListFragment3(getApplicationContext(), "http://chiasenhac.com/mp3/chinese/"));
 			mFragments.add(new DataListFragment3(getApplicationContext(), "http://chiasenhac.com/mp3/korea/"));
 			mFragments.add(new DataListFragment3(getApplicationContext(), "http://chiasenhac.com/mp3/other/"));
-			
 		}
 
 		@Override
