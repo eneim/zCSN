@@ -28,13 +28,14 @@ public class MainFragmentActivity extends SlidingFragmentActivity {
 		super.onCreate(savedInstanceState);
 		// layout out viewpager on the top
 		setContentView(R.layout.activity_pager);
-
+		
 		// menu is set to behind
 		setBehindContentView(R.layout.menu_frame);
 
 		//mContext = this;
 		mViewPager = (ViewPager) findViewById(R.id.pager);
 		mListAdapter = new MainListFragmentAdapter(getSupportFragmentManager());
+		
 		mViewPager.setAdapter(mListAdapter);
 		
 		mViewPager.setOnPageChangeListener(new OnPageChangeListener() {
@@ -124,6 +125,27 @@ public class MainFragmentActivity extends SlidingFragmentActivity {
 		public int getCount() {
 			// TODO Auto-generated method stub
 			return mFragments.size();
+		}
+		
+		@Override
+		public CharSequence getPageTitle(int position) {
+			// TODO Auto-generated method stub
+			
+			//return "OBJECT " + (position + 1);
+			switch(position) {
+				case 0:
+					return "Việt Nam";
+				case 1:
+					return "Âu, Mỹ";
+				case 2:
+					return "Nhạc Hoa";
+				case 3:
+					return "Nhạc Hàn";
+				case 4:
+					return "Nước Khác";
+			}
+				
+			return super.getPageTitle(position);
 		}
 
 	}	

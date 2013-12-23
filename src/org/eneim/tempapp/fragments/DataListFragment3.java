@@ -39,7 +39,8 @@ public class DataListFragment3 extends ListFragment implements LoaderManager.Loa
 	public DataListFragment3(Context context, String source) {
 		mURL = source;
 		mContext = context;
-	}	
+	}
+	
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -48,6 +49,8 @@ public class DataListFragment3 extends ListFragment implements LoaderManager.Loa
 		
 		list = (ListView) inflater.inflate(R.layout.list, null);
 		mCSNMusicItemList = new ArrayList<CSNMusicPlaylistItem>();
+		mCSNMusicAdapter = new CSNMusicAdapter(mContext, R.layout.item_music, 
+				mCSNMusicItemList);
 		
 		return list;
 	}
@@ -57,8 +60,8 @@ public class DataListFragment3 extends ListFragment implements LoaderManager.Loa
 		super.onActivityCreated(savedInstanceState);
 
 		//new DoCSNMusicTask().execute(mURL);
-		mCSNMusicAdapter = new CSNMusicAdapter(mContext, R.layout.item_music, 
-				mCSNMusicItemList);
+//		mCSNMusicAdapter = new CSNMusicAdapter(mContext, R.layout.item_music, 
+//				mCSNMusicItemList);
 		setListAdapter(mCSNMusicAdapter);
 		//setListShown(false);
 		getLoaderManager().initLoader(0, null, this);
@@ -123,6 +126,7 @@ public class DataListFragment3 extends ListFragment implements LoaderManager.Loa
 			csnMusicItemHolder.mskDownloadedView.setText(mskItem.getDownloaded());
 			csnMusicItemHolder.mskFormatView.setText(mskItem.getFormat());
 
+			csnMusicItemHolder.setColor(getResources().getColor(R.color.Black));
 			//String _coverURL = mskItem.getCoverURL();
 			//UrlImageViewHelper.setUrlDrawable(csnMusicItemHolder.mskCoverView, _coverURL);
 			//csnMusicItemHolder.mskCoverView.setBackgroundResource(R.drawable.ic_launcher);
@@ -146,6 +150,14 @@ public class DataListFragment3 extends ListFragment implements LoaderManager.Loa
 		public TextView mskLengthView; 
 		public TextView mskDownloadedView; 
 		public TextView mskFormatView;
+		
+		public void setColor(int color) {
+			mskDownloadedView.setTextColor(color);
+			mskFormatView.setTextColor(color);
+			mskLengthView.setTextColor(color);
+			mskPerfomerView.setTextColor(color);
+			mskTitleView.setTextColor(color);
+		}		
 	}
 
 	public static class DataListLoader extends AsyncTaskLoader<List<CSNMusicPlaylistItem>> {
