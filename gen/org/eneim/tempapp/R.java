@@ -1251,6 +1251,7 @@ containing a value of this type.
         public static final int abs__textButton=0x7f040018;
         public static final int abs__title=0x7f040020;
         public static final int abs__up=0x7f04000b;
+        public static final int action_search=0x7f040061;
         public static final int action_settings=0x7f040060;
         public static final int btnBackward=0x7f04004e;
         public static final int btnForward=0x7f040050;
@@ -2570,7 +2571,7 @@ containing a value of this type.
          */
         public static final int[] SherlockSpinner = {
             0x010100af, 0x01010175, 0x01010176, 0x0101017b,
-            0x01010262, 0x010102ac, 0x010102ad, 0x01010411
+            0x01010262, 0x010102ac, 0x010102ad, 0x010103fd
         };
         /**
           <p>

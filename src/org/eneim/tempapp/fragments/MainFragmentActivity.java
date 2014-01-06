@@ -76,7 +76,7 @@ public class MainFragmentActivity extends SlidingFragmentActivity {
 		ActionBar actionBar = getSupportActionBar();
 		
 		actionBar.setDisplayHomeAsUpEnabled(true);
-		actionBar.setNavigationMode(com.actionbarsherlock.app.ActionBar.NAVIGATION_MODE_TABS);
+		//actionBar.setNavigationMode(com.actionbarsherlock.app.ActionBar.NAVIGATION_MODE_TABS);
 		
 	}
 
@@ -147,7 +147,7 @@ public class MainFragmentActivity extends SlidingFragmentActivity {
 				case 3:
 					return "Nhạc Hàn";
 				case 4:
-					return "Nước Khác";
+					return "Nước khác";
 			}
 				
 			return super.getPageTitle(position);
